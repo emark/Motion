@@ -3,7 +3,7 @@ use strict;
 use CGI q/:standard/;
 use utf8;
 
-my $path='../../htdocs/motion/';
+my $path='../../data/motion/';
 my $from=param('from');
 my @source=('cam1','cam2');
 
