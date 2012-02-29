@@ -9,4 +9,8 @@ function ViewMovie($source,$from){
   $index=document.getElementById($object).selectedIndex;
   $file="/motion/"+$source+"/"+$from+document.getElementById($object).options[$index].text;
   window.open($file,"VideoMovie","height=640");
+}function StopMovie($source){
+  $file="/motion/"+$source+"/null.swf";
+  $object="movie"+$source;
+  document.getElementById($object).src=$file;
 }
