@@ -28,8 +28,9 @@ sub Listing(){
   foreach my $source(@source){
     my @list=<$path/$source/$from*.*>;
     if(@list){
+      print start_form(-name=>"$source");
       print p("Source: $source");
-      print '<select name=file>';
+      print "<select id=\"file$source\">";
       my $swf='';
       foreach my $key(@list){
         $key=~s/$path\/$source\/$from//;
@@ -37,12 +38,13 @@ sub Listing(){
         $swf=$key;
       }
       print '</select>';
-      print button('',"View",'tellme()');
+      print button('',"View","ViewMovie('$source','$from')");
+      print button('',"Open","OpenMovie('$source','$from')");
       print p;
       print "<object width=\"320\" height=\"240\">";
-      print "<embed src=\"/motion/$source/$from$swf\" width=\"320\" height=\"240\">";
-      print '</embed>';
+      print "<embed id=\"movie$source\" src=\"/motion/$source/$from$swf\" width=\"320\" height=\"240\"></embed>";
       print '</object>';
+      print end_form;
     }else{
       print p('Files not found');
     }
@@ -50,6 +52,14 @@ sub Listing(){
 }
 
 sub JScript(){
-  my $src='function tellme(){alert(document.getElementsByTagName(\'moviecam1\').name)}';
+  my $scriptpath='scripts/';
+  my $src=();
+  my @tmpsrc=();
+  open (SCRIPT,"<$scriptpath/main.js") || die "Can't loading scripts";
+  @tmpsrc=<SCRIPT>;
+  close SCRIPT;
+  foreach my $key(@tmpsrc){
+    $src=$src.$key;
+  }
   return $src;
 }
